@@ -1,0 +1,119 @@
+---
+import ItemCard from './ItemCard.astro'
+
+interface Props {
+	title?: string
+}
+
+const { title } = Astro.props
+const random = Math.floor(Math.random() * 100)
+---
+
+<section>
+	<h3>{title}</h3>
+	<div id={`glide${random}`} class="glide" data-random={random}>
+		<div class="glide__track" data-glide-el="track">
+			<ul class="glide__slides">
+				<li class="glide__slide">
+					<ItemCard />
+				</li>
+				<li class="glide__slide">
+					<ItemCard />
+				</li>
+				<li class="glide__slide">
+					<ItemCard />
+				</li>
+			</ul>
+		</div>
+		<div class="glide__arrows" data-glide-el="controls">
+			<button class="glide__arrow glide__arrow--left" data-glide-dir="<"
+				><svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 16 16">
+					<path
+						fill="currentColor"
+						fill-rule="evenodd"
+						d="M9.78 4.22a.75.75 0 0 1 0 1.06L7.06 8l2.72 2.72a.75.75 0 1 1-1.06 1.06L5.47 8.53a.75.75 0 0 1 0-1.06l3.25-3.25a.75.75 0 0 1 1.06 0"
+						clip-rule="evenodd"></path>
+				</svg></button
+			>
+			<button class="glide__arrow glide__arrow--right" data-glide-dir=">"
+				><svg
+					xmlns="http://www.w3.org/2000/svg"
+					width="36"
+					height="36"
+					viewBox="0 0 16 16"
+					style="rotate: 180deg;"
+				>
+					<path
+						fill="currentColor"
+						fill-rule="evenodd"
+						d="M9.78 4.22a.75.75 0 0 1 0 1.06L7.06 8l2.72 2.72a.75.75 0 1 1-1.06 1.06L5.47 8.53a.75.75 0 0 1 0-1.06l3.25-3.25a.75.75 0 0 1 1.06 0"
+						clip-rule="evenodd"></path>
+				</svg></button
+			>
+		</div>
+	</div>
+</section>
+<style>
+	.glide{
+		@apply px-2 md:px-4
+	}
+
+	.glide__track {
+		@apply container mx-auto 2xl:max-w-screen-xl;
+	}
+
+	.glide__arrow {
+		border-radius: 50%;
+		aspect-ratio: 1;
+		padding: 4px;
+		position: absolute;
+		display: block;
+		top: 50%;
+		z-index: 2;
+		color: rgb(0, 0, 0);
+		background-color: transparent;
+		/* border: 2px solid rgba(255, 255, 255, 0.3); */
+		border: 2px solid rgba(255, 255, 255, 0);
+		box-shadow: 0 0.25em 0.5em 0 rgba(0, 0, 0, 0.1);
+		text-shadow: 0 0.25em 0.5em rgba(0, 0, 0, 0.1);
+		cursor: pointer;
+		transition: border 300ms ease-in-out;
+		transform: translateY(-50%);
+	}
+	.glide__arrow:hover {
+		border: 2px solid rgba(255, 255, 255, 0.8);
+	}
+	.glide__arrow--left {
+		left: 1rem;
+	}
+	.glide__arrow--right {
+		right: 1rem;
+	}
+</style>
+
+<script is:inline src="node_modules/@glidejs/glide/dist/glide.min.js"></script>
+
+<script is:inline>
+	const random = document.querySelector(".glide").dataset.random
+	console.log(`#glide${random}`)
+	const glide = new Glide(`#glide${random}`, {
+		type: "carousel",
+		perView: 5,
+		breakpoints: {
+			500: {
+				perView: 1,
+			},
+			767: {
+				perView: 2,
+			},
+			1023: {
+				perView: 3,
+			},
+			1279: {
+				perView: 4,
+			},
+		},
+	})
+
+	glide.mount()
+</script>
